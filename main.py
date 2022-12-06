@@ -28,7 +28,7 @@ def change_user_agent(driver):
 
 def start_chrome():
     options = uc.ChromeOptions()
-    profile = "C:/Users/Nuralem/AppData/Local/Google/Chrome/User Data/Profile 1"
+    profile = f"C:/Users/{os.getlogin()}/AppData/Local/Google/Chrome/User Data/Profile 1"
     options.add_argument(f'user-data-dir={profile}')
     driver = uc.Chrome(options=options)
     driver.implicitly_wait(60)
@@ -45,7 +45,7 @@ def log_in(driver, email, password):
     driver.find_element(By.XPATH, xpath).click()
     emulate_human_response()
     driver = change_user_agent(driver)
-    xpath = '//*[@aria-label="Войти через Google"]'
+    xpath = '//*[@aria-label="Log in with Google"]'
     emulate_human_response()
     WebDriverWait(driver, DELAY).until(EC.presence_of_element_located(
         (By.XPATH, xpath)))
@@ -155,31 +155,17 @@ def join_chat(driver, links):
 
 
 def download_img(driver):
-    global IMGCOUNTER
-    imgs = driver.find_elements(
-        By.XPATH, "//div[@role='img']")
-    while (len(imgs) < 14):
-        imgs = driver.find_elements(
-            By.XPATH, "//div[@role='img']")
-        time.sleep(0.5)
+    """тут свою фукнцию написать над"""
 
-    if len(imgs) == 16:
-        img_data = requests.get(imgs[4].value_of_css_property(
-            "background-image")[5:-2]).content
-        person_face_name = 'person_avatars/' + f'person_face{IMGCOUNTER}.jpg'
-        with open(person_face_name, 'wb') as handler:
-            handler.write(img_data)
-        IMGCOUNTER = IMGCOUNTER + 1
-        return person_face_name
+    img_data = requests.get(imgs[4].value_of_css_property(
+        "background-image")[5:-2]).content
+    person_face_name = 'person_avatars/' + f'person_face{IMGCOUNTER}.jpg'
+    with open(person_face_name, 'wb') as handler:
+        handler.write(img_data)
+    IMGCOUNTER = IMGCOUNTER + 1
+    return person_face_name
 
-    if len(imgs) == 15:
-        img_data = requests.get(imgs[3].value_of_css_property(
-            "background-image")[5:-2]).content
-        person_face_name = 'person_avatars/' + f'person_face{IMGCOUNTER}.jpg'
-        with open(person_face_name, 'wb') as handler:
-            handler.write(img_data)
-        IMGCOUNTER = IMGCOUNTER + 1
-        return person_face_name
+
 
 
 def delete_img():
@@ -214,11 +200,11 @@ def start_bot():
 
 
 driver = start_bot()
-# log_in(driver, "robotkz710@gmail.com", "secret")
+# log_in(driver, "robotkz710@gmail.com", "Hianton551322")
 # log_in(driver, "robotkz0091@gmail.com", "secret")
 
-for i in range(10):
-    do_likes(driver)
+# for i in range(10):
+#     do_likes(driver)
 
 for i in range(10):
     collect_chats(driver)

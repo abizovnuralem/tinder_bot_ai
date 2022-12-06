@@ -1,6 +1,7 @@
 from keras.models import load_model
 from keras.utils import load_img, img_to_array
 import numpy as np
+import os
 
 
 def load_image(img_path, show=False):
@@ -13,8 +14,9 @@ def load_image(img_path, show=False):
 
 
 def get_beauty_score(img_path):
-    model = load_model(
-        "C:/Users/Nuralem/Desktop/tinder_bot/attractive_net/AttractiveNet/models/attractiveNet_mnv2.h5")
+    model_path = os.getcwd()+"/tinder_bot_ai/attractive_net/AttractiveNet/models/attractiveNet_mnv2.h5"
+    print(model_path)
+    model = load_model(model_path)
     # load a single image
     new_image = load_image(img_path)
     # check prediction
